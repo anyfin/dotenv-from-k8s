@@ -6,6 +6,8 @@ Useful for building frontend projects for k8s.
 
 This tool uses kubernetes apis via the official [kubernetes client for javascript](https://github.com/kubernetes-client/javascript)
 
+This tool will use your currently configured kubectl to perform necessary api calls. So make sure you have configured your kubectl correctly before running this.
+
 ## Installation
 
 ```sh
