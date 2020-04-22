@@ -1,4 +1,4 @@
-# K8s2DotEnv
+# k8s2dotenv
 
 A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file. 
 Useful for building frontend projects for k8s.
