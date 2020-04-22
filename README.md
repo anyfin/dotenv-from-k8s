@@ -9,18 +9,18 @@ This tool uses kubernetes apis via the official [kubernetes client for javascrip
 ## Installation
 
 ```sh
-npm install -g k8s2DotEnv
+npm install -g k8s2dotenv
 ```
 
 ## Usage
 
 ```s
 
-   k8s2DotEnv 1.0.0 - Merges and coverts secrets and configmaps to a env properties file
+   k8s2dotenv 1.0.0 - Merges and coverts secrets and configmaps to a env properties file
 
    USAGE
 
-     k8s2DotEnv
+     k8s2dotenv
 
    OPTIONS
 
@@ -43,13 +43,13 @@ npm install -g k8s2DotEnv
 **Simple**
 
 ```
-k8s2DotEnv -c api-config > .env
+k8s2dotenv -c api-config > .env
 ```
 
 **Advanced**
 
 ```
-k8s2DotEnv -s api-secrets -s api-secrets2 -c api-config -c api-config2 -n default > .env
+k8s2dotenv -s api-secrets -s api-secrets2 -c api-config -c api-config2 -n default > .env
 ```
 
 

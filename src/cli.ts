@@ -5,9 +5,9 @@ import { getAndMergeSecretsAndConfigs, getK8sApi } from './k8s';
 import { convertJsonToPropertiesFile } from './utils';
 
 prog
-  .name('k8s2DotEnv')
+  .name('k8s2dotenv')
   .version('1.0.0')
-  .bin('k8s2DotEnv')
+  .bin('k8s2dotenv')
   .description('Merges and coverts secrets and configmaps to a env properties file')
   .option('-s, --secret <secret_name>', 'K8s <secret_name> from which you want to generate env file', prog.REPEATABLE)
   .option('-c, --configmap <config_map>', 'K8s <config_map> from which you want to generate env file', prog.REPEATABLE)
