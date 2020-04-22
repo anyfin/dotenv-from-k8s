@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "sourceMap": false,
+    "target": "es5",
+    "module": "commonjs",
+    "allowJs": true,
+    "checkJs": true,
+    "removeComments": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "lib": ["ES2020.Promise"]
+  },
+  "include": ["src"]
+}
