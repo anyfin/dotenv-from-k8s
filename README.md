@@ -17,7 +17,7 @@ npm install -g k8s2dotenv
 ## Usage
 
 ```s
-
+ 
    k8s2dotenv 1.0.0 - Merges and coverts secrets and configmaps to a env properties file
 
    USAGE
@@ -26,6 +26,7 @@ npm install -g k8s2dotenv
 
    OPTIONS
 
+     -o, --out                         Output file name, defaults to stdout                                               optional      default: false
      -s, --secret <secret_name>        K8s <secret_name> from which you want to generate env file                         optional
      -c, --configmap <config_map>      K8s <config_map> from which you want to generate env file                          optional
      -n, --namespace <name_space>      K8s <name_space> from which you want to access the secrets and/or config maps      optional
@@ -37,7 +38,6 @@ npm install -g k8s2dotenv
      --no-color         Disable colors
      --quiet            Quiet mode - only displays warn and error messages
      -v, --verbose      Verbose mode - will also output debug messages
-
 ```
 
 ## Example

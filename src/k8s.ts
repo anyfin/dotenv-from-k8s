@@ -35,12 +35,12 @@ export async function getAndMergeSecretsAndConfigs(
 ): Promise<Record<string, string>> {
   const allSecrets = await Promise.all(
     secrets.map(async (secret) => {
-      return getSecret(k8sApi, secret, namespace);
+      return getSecret(k8sApi, secret, namespace).catch(() => ({}));
     }),
   );
   const allConfigMaps = await Promise.all(
     configMaps.map(async (configMap) => {
-      return getConfigMap(k8sApi, configMap, namespace);
+      return getConfigMap(k8sApi, configMap, namespace).catch(() => ({}));
     }),
   );
   return Object.assign({}, ...allSecrets, ...allConfigMaps);

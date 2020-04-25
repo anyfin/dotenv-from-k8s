@@ -1,7 +1,7 @@
 {
   "name": "k8s2dotenv",
   "description": "Merges and converts secrets and config maps in k8s to dot env property file. Useful for building frontend projects for k8s",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "dist/cli.js",
   "bin": {
     "k8s2dotenv": "./dist/cli.js"
