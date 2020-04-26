@@ -17,7 +17,7 @@ npm install -g dotenv-from-k8s
 
 ```s
  
-   dotenv-from-k8s 1.1.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
+   dotenv-from-k8s 1.2.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
    USAGE
 
