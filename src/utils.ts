@@ -17,3 +17,7 @@ export function convertJsonToPropertiesFile(obj: Record<string, string>): string
   });
   return propertiesFile;
 }
+
+export function arrayfy(target: Array<string> | string): Array<string> {
+  return Array.isArray(target) ? target : [target];
+}
