@@ -1,10 +1,10 @@
 # dotenv-from-k8s
 
-A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file. 
+A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
 In most frontend projects environment variables are built as part of docker build. This tool allows you to create a .env file from k8s secrets and config maps before doing a docker build. This you can store your secrets in k8s secrets just like you would for a nodejs service.
 
-This tool uses kubernetes apis via the official [kubernetes client for javascript](https://github.com/kubernetes-client/javascript) and 
+This tool uses kubernetes apis via the official [kubernetes client for javascript](https://github.com/kubernetes-client/javascript) and
 will use your currently configured kubectl to perform necessary api calls. So make sure you have configured your kubectl correctly before running this.
 
 ## Installation
@@ -16,8 +16,8 @@ npm install -g dotenv-from-k8s
 ## Usage
 
 ```s
- 
-   dotenv-from-k8s 1.2.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
+
+   dotenv-from-k8s 1.3.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
    USAGE
 
@@ -60,6 +60,25 @@ npm install -g dotenv-from-k8s
      dotenv-from-k8s -i env-from.yaml -o .env
 
 
+     Config file example with overrides:
+     -----------------------------------
+     cat > env-from.yaml <<EOL
+
+     namespace: default
+     envFrom:
+       - secretRef:
+           name: app-secrets
+       - configMapRef:
+           name: app-config
+     overrides:
+         HELLO: WORLD
+         ANOTHER_KEY: ANOTHER_VALUE
+
+     EOL
+
+     dotenv-from-k8s -i env-from.yaml -o .env
+
+
    GLOBAL OPTIONS
 
      -h, --help         Display help
@@ -67,7 +86,8 @@ npm install -g dotenv-from-k8s
      --no-color         Disable colors
      --quiet            Quiet mode - only displays warn and error messages
      -v, --verbose      Verbose mode - will also output debug messages
- 
+
+
 ```
 
 ## Example
@@ -85,6 +105,7 @@ or
 ### Config file example:
 
 **env-from.yaml**
+
 ```
 namespace: default
 envFrom:
@@ -92,6 +113,8 @@ envFrom:
       name: app-secrets
   - configMapRef:
       name: app-config
+overrides:
+    Hello: World
 ```
 
 `dotenv-from-k8s -i env-from.yaml -o .env`
@@ -105,7 +128,7 @@ PS: You will need [`jq`](https://github.com/stedolan/jq) version 1.6+ installed 
 ```sh
   kubectl get secrets/api-secrets -o json | \
       jq -r '.data | map_values(@base64d) | to_entries[] | "\(.key)=\(.value)"' > .env
-  
+
   kubectl get configmaps/api-config -o json | \
     jq -r '.data | to_entries[] | "\(.key)=\(.value)"' >> .env
 ```

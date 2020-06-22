@@ -1,0 +1,8 @@
+namespace: default
+envFrom:
+  - secretRef:
+      name: app-secrets
+  - configMapRef:
+      name: app-config
+overrides:
+  HELLO: WORLD

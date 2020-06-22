@@ -31,6 +31,7 @@ export async function getAndMergeSecretsAndConfigs(
   k8sApi: k8s.CoreV1Api,
   secrets: string[],
   configMaps: string[],
+  overrides: Record<string, string>,
   namespace: string,
 ): Promise<Record<string, string>> {
   const allSecrets = await Promise.all(
@@ -43,5 +44,5 @@ export async function getAndMergeSecretsAndConfigs(
       return getConfigMap(k8sApi, configMap, namespace).catch(() => ({}));
     }),
   );
-  return Object.assign({}, ...allSecrets, ...allConfigMaps);
+  return Object.assign({}, ...allSecrets, ...allConfigMaps, overrides);
 }

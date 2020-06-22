@@ -10,7 +10,7 @@ export async function configParser(inputFile: string): Promise<Result> {
   const secrets: string[] = [];
   const configMaps: string[] = [];
   const namespace = config.namespace || 'default';
-
+  const overrides = config.overrides || {};
   config.envFrom?.forEach((ref: any) => {
     if (ref.secretRef) {
       secrets.push(ref.secretRef.name);
@@ -19,18 +19,20 @@ export async function configParser(inputFile: string): Promise<Result> {
     }
   });
 
-  return { secrets, configMaps, namespace };
+  return { secrets, configMaps, namespace, overrides };
 }
 
 type Result = {
   secrets: Array<string>;
   configMaps: Array<string>;
+  overrides: Record<string, string>;
   namespace: string;
 };
 
 type InputConfig = {
   namespace?: string;
   envFrom?: Array<ConfigMapRef | SecretRef>;
+  overrides?: Record<string, string>;
 };
 
 type SecretRef = {

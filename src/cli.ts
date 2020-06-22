@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import prog from 'caporal';
+import prog, { parse } from 'caporal';
 import fs from 'fs';
 import stream, { Readable } from 'stream';
 import util from 'util';
@@ -37,7 +37,26 @@ envFrom:
   - secretRef:
       name: app-secrets
   - configMapRef:
-      name: app-config 
+      name: app-config
+
+EOL
+
+dotenv-from-k8s -i env-from.yaml -o .env
+
+
+Config file example with overrides:
+-----------------------------------
+cat > env-from.yaml <<EOL
+
+namespace: default
+envFrom:
+  - secretRef:
+      name: app-secrets
+  - configMapRef:
+      name: app-config
+overrides:
+    HELLO: WORLD
+    ANOTHER_KEY: ANOTHER_VALUE
 
 EOL
 
@@ -60,6 +79,7 @@ dotenv-from-k8s -i env-from.yaml -o .env
       let outStream: NodeJS.WritableStream = process.stdout;
       const secrets: string[] = [];
       const configMaps: string[] = [];
+      const overrides: Record<string, string> = {};
       let namespace = 'default';
 
       if (options.input) {
@@ -67,6 +87,7 @@ dotenv-from-k8s -i env-from.yaml -o .env
         namespace = parsed.namespace;
         secrets.push(...parsed.secrets);
         configMaps.push(...parsed.configMaps);
+        Object.assign(overrides, parsed.overrides);
       }
       if (options.namespace) {
         namespace = options.namespace;
@@ -81,7 +102,7 @@ dotenv-from-k8s -i env-from.yaml -o .env
         outStream = fs.createWriteStream(options.out, { encoding: 'utf8' });
       }
 
-      const finalConfig = await getAndMergeSecretsAndConfigs(k8sApi, secrets, configMaps, namespace);
+      const finalConfig = await getAndMergeSecretsAndConfigs(k8sApi, secrets, configMaps, overrides, namespace);
       const propertiesFile = convertJsonToPropertiesFile(finalConfig);
       const propFileStream = Readable.from(propertiesFile);
       await pipeline(propFileStream, outStream);
