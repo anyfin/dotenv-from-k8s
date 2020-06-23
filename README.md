@@ -2,7 +2,7 @@
 
 A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
-In most frontend projects environment variables are built as part of docker build. This tool allows you to create a .env file from k8s secrets and config maps before doing a docker build. This you can store your secrets in k8s secrets just like you would for a nodejs service.
+In most frontend projects environment variables are built as part of docker build. This tool allows you to create a .env file from k8s secrets and config maps before doing a docker build. This way you can store your secrets in k8s secrets just like you would for a nodejs service.
 
 This tool uses kubernetes apis via the official [kubernetes client for javascript](https://github.com/kubernetes-client/javascript) and
 will use your currently configured kubectl to perform necessary api calls. So make sure you have configured your kubectl correctly before running this.
