@@ -16,76 +16,77 @@ npm install -g dotenv-from-k8s
 ## Usage
 
 ```s
+  
+  dotenv-from-k8s 1.4.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
-   dotenv-from-k8s 1.3.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
+  USAGE
 
-   USAGE
+    dotenv-from-k8s
 
-     dotenv-from-k8s
+  OPTIONS
 
-   OPTIONS
+    -i, --input                       Input configuration file                                                                     optional      default: false
+    -o, --out                         Output env file name, defaults to stdout                                                     optional      default: false
+    -s, --secret <secret_name>        K8s <secret_name> from which you want to generate env file                                   optional
+    -c, --configmap <config_map>      K8s <config_map> from which you want to generate env file                                    optional
+    -n, --namespace <name_space>      K8s <name_space> from which you want to access the secrets and/or config maps                optional
+    -x, --context <context_name>      K8s context <context_name> from which you want to access the secrets and/or config maps      optional
 
-     -i, --input                       Input configuration file                                                           optional      default: false
-     -o, --out                         Output env file name, defaults to stdout                                           optional      default: false
-     -s, --secret <secret_name>        K8s <secret_name> from which you want to generate env file                         optional
-     -c, --configmap <config_map>      K8s <config_map> from which you want to generate env file                          optional
-     -n, --namespace <name_space>      K8s <name_space> from which you want to access the secrets and/or config maps      optional
-
-   MORE INFO
-
-
-     Basic example:
-     ---------------
-     dotenv-from-k8s -c api-config -o .env
-     or
-     dotenv-from-k8s -c api-config > .env
-
-     Advanced example:
-     ----------------
-     dotenv-from-k8s -s api-secrets -s api-secrets2 -c api-config -c api-config2 -n default > .env
-
-     Config file example:
-     --------------------
-     cat > env-from.yaml <<EOL
-
-     namespace: default
-     envFrom:
-       - secretRef:
-           name: app-secrets
-       - configMapRef:
-           name: app-config
-
-     EOL
-
-     dotenv-from-k8s -i env-from.yaml -o .env
+  MORE INFO
 
 
-     Config file example with overrides:
-     -----------------------------------
-     cat > env-from.yaml <<EOL
+    Basic example:
+    ---------------
+    dotenv-from-k8s -c api-config -o .env
+    or
+    dotenv-from-k8s -c api-config > .env
 
-     namespace: default
-     envFrom:
-       - secretRef:
-           name: app-secrets
-       - configMapRef:
-           name: app-config
-     overrides:
-         HELLO: WORLD
-         ANOTHER_KEY: ANOTHER_VALUE
+    Advanced example:
+    ----------------
+    dotenv-from-k8s -s api-secrets -s api-secrets2 -c api-config -c api-config2 -n default > .env
 
-     EOL
+    Config file example:
+    --------------------
+    cat > env-from.yaml <<EOL
 
-     dotenv-from-k8s -i env-from.yaml -o .env
+    namespace: default
+    envFrom:
+      - secretRef:
+          name: app-secrets
+      - configMapRef:
+          name: app-config
+
+    EOL
+
+    dotenv-from-k8s -i env-from.yaml -o .env
 
 
-   GLOBAL OPTIONS
+    Config file example with overrides:
+    -----------------------------------
+    cat > env-from.yaml <<EOL
 
-     -h, --help         Display help
-     -V, --version      Display version
-     --no-color         Disable colors
-     --quiet            Quiet mode - only displays warn and error messages
-     -v, --verbose      Verbose mode - will also output debug messages
+    namespace: default
+    envFrom:
+      - secretRef:
+          name: app-secrets
+      - configMapRef:
+          name: app-config
+    overrides:
+        HELLO: WORLD
+        ANOTHER_KEY: ANOTHER_VALUE
+
+    EOL
+
+    dotenv-from-k8s -i env-from.yaml -o .env
+
+
+  GLOBAL OPTIONS
+
+    -h, --help         Display help
+    -V, --version      Display version
+    --no-color         Disable colors
+    --quiet            Quiet mode - only displays warn and error messages
+    -v, --verbose      Verbose mode - will also output debug messages
 
 
 ```

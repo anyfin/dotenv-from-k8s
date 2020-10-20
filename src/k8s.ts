@@ -2,9 +2,12 @@ import * as k8s from '@kubernetes/client-node';
 
 import { base64DecodeObjectValues } from './utils';
 
-export function getK8sApi(): k8s.CoreV1Api {
+export function getK8sApi(context?: string): k8s.CoreV1Api {
   const kc = new k8s.KubeConfig();
   kc.loadFromDefault();
+  if (context) {
+    kc.setCurrentContext(context);
+  }
   return kc.makeApiClient(k8s.CoreV1Api);
 }
 

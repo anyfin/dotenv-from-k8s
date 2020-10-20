@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import prog, { parse } from 'caporal';
+import prog from 'caporal';
 import fs from 'fs';
 import stream, { Readable } from 'stream';
 import util from 'util';
@@ -72,15 +72,19 @@ dotenv-from-k8s -i env-from.yaml -o .env
     'K8s <name_space> from which you want to access the secrets and/or config maps',
     prog.STRING,
   )
+  .option(
+    '-x, --context <context_name>',
+    'K8s context <context_name> from which you want to access the secrets and/or config maps',
+    prog.STRING,
+  )
   .action(function (args, options, logger) {
     async function main(): Promise<void> {
-      const k8sApi = getK8sApi();
-
       let outStream: NodeJS.WritableStream = process.stdout;
       const secrets: string[] = [];
       const configMaps: string[] = [];
       const overrides: Record<string, string> = {};
       let namespace = 'default';
+      let context;
 
       if (options.input) {
         const parsed = await configParser(options.input);
@@ -101,7 +105,11 @@ dotenv-from-k8s -i env-from.yaml -o .env
       if (options.out) {
         outStream = fs.createWriteStream(options.out, { encoding: 'utf8' });
       }
+      if (options.context) {
+        context = options.context;
+      }
 
+      const k8sApi = getK8sApi(context);
       const finalConfig = await getAndMergeSecretsAndConfigs(k8sApi, secrets, configMaps, overrides, namespace);
       const propertiesFile = convertJsonToPropertiesFile(finalConfig);
       const propFileStream = Readable.from(propertiesFile);

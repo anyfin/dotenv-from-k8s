@@ -6,7 +6,7 @@ const readFile = util.promisify(fs.readFile);
 
 export async function configParser(inputFile: string): Promise<Result> {
   const rawConfig = await readFile(inputFile, { encoding: 'utf8' });
-  const config: InputConfig = yaml.safeLoad(rawConfig);
+  const config = yaml.safeLoad(rawConfig) as InputConfig;
   const secrets: string[] = [];
   const configMaps: string[] = [];
   const namespace = config.namespace || 'default';
