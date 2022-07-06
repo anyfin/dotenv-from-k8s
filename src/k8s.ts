@@ -1,7 +1,7 @@
 import * as k8s from '@kubernetes/client-node';
 
 import { Ref } from './configParser';
-import { base64DecodeObjectValues } from './utils';
+import { base64DecodeObjectValues, substituteVariable } from './utils';
 
 export function getK8sApi(context?: string): k8s.CoreV1Api {
   const kc = new k8s.KubeConfig();
@@ -47,5 +47,10 @@ export async function getAndMergeSecretsAndConfigs(
       }
     }),
   );
-  return Object.assign({}, ...allEnvs, overrides);
+  const variables: Record<string, string> = Object.assign({}, ...allEnvs, overrides);
+  Object.keys(variables).forEach((key) => {
+    // For each value in the variables run a pattern substitution for $(SOME_VAR)
+    variables[key] = substituteVariable(variables[key], variables);
+  });
+  return variables;
 }

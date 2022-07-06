@@ -18,6 +18,17 @@ export function convertJsonToPropertiesFile(obj: Record<string, string>): string
   return propertiesFile;
 }
 
+/**
+ * Substitute any value like "$(some_variable)"
+ * with value of some_variable in the variableStore
+ */
+export function substituteVariable(value: string, variableStore: Record<string, string>): string {
+  const regex = /\$\((\w+)\)/g;
+  return value.replace(regex, (_, variable) => {
+    return variableStore[variable];
+  });
+}
+
 export function arrayfy(target: Array<string> | string): Array<string> {
   return Array.isArray(target) ? target : [target];
 }

@@ -6,3 +6,4 @@ envFrom:
       name: app-config
 overrides:
   HELLO: WORLD
+  TEST: $(some-env-key-from-app-config)
