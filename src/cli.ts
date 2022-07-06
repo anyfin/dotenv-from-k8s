@@ -5,7 +5,7 @@ import stream, { Readable } from 'stream';
 import util from 'util';
 
 const pkg = require('../package.json');
-import { configParser } from './configParser';
+import { configParser, Ref } from './configParser';
 import { getAndMergeSecretsAndConfigs, getK8sApi } from './k8s';
 import { arrayfy, convertJsonToPropertiesFile } from './utils';
 
@@ -80,8 +80,7 @@ dotenv-from-k8s -i env-from.yaml -o .env
   .action(function (args, options, logger) {
     async function main(): Promise<void> {
       let outStream: NodeJS.WritableStream = process.stdout;
-      const secrets: string[] = [];
-      const configMaps: string[] = [];
+      const refs: Ref[] = [];
       const overrides: Record<string, string> = {};
       let namespace = 'default';
       let context;
@@ -89,18 +88,17 @@ dotenv-from-k8s -i env-from.yaml -o .env
       if (options.input) {
         const parsed = await configParser(options.input);
         namespace = parsed.namespace;
-        secrets.push(...parsed.secrets);
-        configMaps.push(...parsed.configMaps);
+        refs.push(...parsed.refs);
         Object.assign(overrides, parsed.overrides);
       }
       if (options.namespace) {
         namespace = options.namespace;
       }
       if (options.secret) {
-        secrets.push(...arrayfy(options.secret));
+        refs.push(...arrayfy(options.secret).map((secret) => ({ secretRef: { name: secret } })));
       }
       if (options.configmap) {
-        configMaps.push(...arrayfy(options.configmap));
+        refs.push(...arrayfy(options.configmap).map((configMap) => ({ configMapRef: { name: configMap } })));
       }
       if (options.out) {
         outStream = fs.createWriteStream(options.out, { encoding: 'utf8' });
@@ -110,7 +108,7 @@ dotenv-from-k8s -i env-from.yaml -o .env
       }
 
       const k8sApi = getK8sApi(context);
-      const finalConfig = await getAndMergeSecretsAndConfigs(k8sApi, secrets, configMaps, overrides, namespace);
+      const finalConfig = await getAndMergeSecretsAndConfigs(k8sApi, refs, overrides, namespace);
       const propertiesFile = convertJsonToPropertiesFile(finalConfig);
       const propFileStream = Readable.from(propertiesFile);
       await pipeline(propFileStream, outStream);
