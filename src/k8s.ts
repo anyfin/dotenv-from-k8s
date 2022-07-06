@@ -50,7 +50,7 @@ export async function getAndMergeSecretsAndConfigs(
   const variables: Record<string, string> = Object.assign({}, ...allEnvs, overrides);
   Object.keys(variables).forEach((key) => {
     // For each value in the variables run a pattern substitution for $(SOME_VAR)
-    variables[key] = substituteVariable(variables[key], variables);
+    variables[key] = substituteVariable(variables[key], variables) ?? '';
   });
   return variables;
 }
