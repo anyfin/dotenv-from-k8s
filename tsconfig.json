@@ -13,6 +13,7 @@
     "outDir": "./dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "lib": ["ES2020.Promise"]
   },
   "include": ["src"]
