@@ -25,7 +25,7 @@ export function convertJsonToPropertiesFile(obj: Record<string, string>): string
 export function substituteVariable(value: string, variableStore: Record<string, string>): string {
   const regex = /\$\((\w+)\)/g;
   return value.replace(regex, (_, variable) => {
-    return variableStore[variable];
+    return variableStore[variable] ?? '';
   });
 }
 
