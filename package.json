@@ -1,5 +1,5 @@
 {
-  "name": "@anyfin/dotenv-from-k8s",
+  "name": "dotenv-from-k8s",
   "description": "A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.",
   "version": "1.5.2",
   "main": "dist/cli.js",
