@@ -1,5 +1,6 @@
 import * as k8s from '@kubernetes/client-node';
 
+import { Ref } from './configParser';
 import { base64DecodeObjectValues } from './utils';
 
 export function getK8sApi(context?: string): k8s.CoreV1Api {
@@ -32,20 +33,19 @@ async function getConfigMap(
 
 export async function getAndMergeSecretsAndConfigs(
   k8sApi: k8s.CoreV1Api,
-  secrets: string[],
-  configMaps: string[],
+  refs: Ref[],
   overrides: Record<string, string>,
   namespace: string,
 ): Promise<Record<string, string>> {
-  const allSecrets = await Promise.all(
-    secrets.map(async (secret) => {
-      return getSecret(k8sApi, secret, namespace).catch(() => ({}));
+  const allEnvs = await Promise.all(
+    refs.map((ref) => {
+      if (ref.secretRef) {
+        return getSecret(k8sApi, ref.secretRef.name, namespace).catch(() => ({}));
+      }
+      if (ref.configMapRef) {
+        return getConfigMap(k8sApi, ref.configMapRef.name, namespace).catch(() => ({}));
+      }
     }),
   );
-  const allConfigMaps = await Promise.all(
-    configMaps.map(async (configMap) => {
-      return getConfigMap(k8sApi, configMap, namespace).catch(() => ({}));
-    }),
-  );
-  return Object.assign({}, ...allSecrets, ...allConfigMaps, overrides);
+  return Object.assign({}, ...allEnvs, overrides);
 }

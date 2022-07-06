@@ -7,42 +7,36 @@ const readFile = util.promisify(fs.readFile);
 export async function configParser(inputFile: string): Promise<Result> {
   const rawConfig = await readFile(inputFile, { encoding: 'utf8' });
   const config = yaml.load(rawConfig) as InputConfig;
-  const secrets: string[] = [];
-  const configMaps: string[] = [];
   const namespace = config.namespace || 'default';
   const overrides = config.overrides || {};
-  config.envFrom?.forEach((ref: any) => {
-    if (ref.secretRef) {
-      secrets.push(ref.secretRef.name);
-    } else if (ref.configMapRef) {
-      configMaps.push(ref.configMapRef.name);
-    }
-  });
 
-  return { secrets, configMaps, namespace, overrides };
+  return { refs: config.envFrom ?? [], namespace, overrides };
 }
 
 type Result = {
-  secrets: Array<string>;
-  configMaps: Array<string>;
+  refs: Array<Ref>;
   overrides: Record<string, string>;
   namespace: string;
 };
 
 type InputConfig = {
   namespace?: string;
-  envFrom?: Array<ConfigMapRef | SecretRef>;
+  envFrom?: Array<Ref>;
   overrides?: Record<string, string>;
 };
 
 type SecretRef = {
+  configMapRef?: never;
   secretRef: {
     name: string;
   };
 };
 
 type ConfigMapRef = {
+  secretRef?: never;
   configMapRef: {
     name: string;
   };
 };
+
+export type Ref = ConfigMapRef | SecretRef;
