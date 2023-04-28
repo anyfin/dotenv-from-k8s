@@ -134,7 +134,9 @@ PS: You will need [`jq`](https://github.com/stedolan/jq) version 1.6+ installed 
     jq -r '.data | to_entries[] | "\(.key)=\(.value)"' >> .env
 ```
 ## Ownership
+
 [Michael Mok](https://github.com/pmmmwh)
 
 ## Audit history
+
 2023-04-28 by [Anton Zhernov](https://github.com/antonzhernovanyfin)
