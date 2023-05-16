@@ -19,19 +19,19 @@
     "@types/node": "^18.0.3",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
     "@typescript-eslint/parser": "^5.30.5",
+    "cross-env": "^7.0.3",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-simple-import-sort": "^7.0.0",
-    "cross-env": "^7.0.3",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.7.4"
+    "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.17.0",
+    "@kubernetes/client-node": "^0.18.1",
     "caporal": "^1.4.0",
-    "js-yaml": "^4.1.0",
-    "colors": "1.4.0"
+    "colors": "1.4.0",
+    "js-yaml": "^4.1.0"
   },
   "resolutions": {
     "colors": "1.4.0"
