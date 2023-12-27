@@ -28,7 +28,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.18.1",
+    "@kubernetes/client-node": "^0.20.0",
     "caporal": "^1.4.0",
     "colors": "1.4.0",
     "js-yaml": "^4.1.0"
