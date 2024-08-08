@@ -1,7 +1,7 @@
 {
   "name": "dotenv-from-k8s",
   "description": "A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "main": "dist/cli.js",
   "bin": {
     "dotenv-from-k8s": "./dist/cli.js"
@@ -28,7 +28,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@kubernetes/client-node": "^0.20.0",
+    "@kubernetes/client-node": "^0.21.0",
     "caporal": "^1.4.0",
     "colors": "1.4.0",
     "js-yaml": "^4.1.0"
