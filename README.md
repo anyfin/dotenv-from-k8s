@@ -16,7 +16,7 @@ npm install -g dotenv-from-k8s
 ## Usage
 
 ```s
-  
+
   dotenv-from-k8s 1.4.0 - A commandline cli tool to fetch, merge and convert secrets and config maps in k8s to dot env property file.
 
   USAGE
@@ -133,10 +133,11 @@ PS: You will need [`jq`](https://github.com/stedolan/jq) version 1.6+ installed 
   kubectl get configmaps/api-config -o json | \
     jq -r '.data | to_entries[] | "\(.key)=\(.value)"' >> .env
 ```
+
 ## Ownership
 
-[Michael Mok](https://github.com/pmmmwh)
+Core Services Team
 
 ## Audit history
 
-2023-04-28 by [Anton Zhernov](https://github.com/antonzhernovanyfin)
+2024-08-08 by [Rumesh Hapuarachchi](https://github.com/rehrumesh)
